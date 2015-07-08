@@ -74,7 +74,7 @@ void setup()
       // Good, we connected turn on the red led
     digitalWrite(redPin, HIGH);
    // Publish a message to the status topic
-    client.publish("status","Arduino is now online");
+    client.publish("control","-MSG: Juan El Arduino esta online");
     
     // Listen for messages on the control topic
     client.subscribe("control");
@@ -86,9 +86,7 @@ void loop()
   client.loop();
 }
 
-void pepe(){
-Serial.println("pepe");
-}
+
 // Anything with flashing lights.
 void blink(int targetLed) 
 {
@@ -130,10 +128,16 @@ void Relay(int pin, int estado)
  
  switch(estado){
    case 0: digitalWrite(pin, LOW);
+   client.publish("led","-MSG:Juan me apagaste el LED !!! ");
    break;
    case 1: digitalWrite(pin, HIGH);
+    client.publish("led","-MSG:Juan prendiste la lampara de  ALADINO !!! ");
+ 
  break;
- default:break;
+ default:
+  client.publish("led","Error de Comando");
+ 
+ break;
  }
  
    
