@@ -11,12 +11,13 @@ byte ip[]     = { 192, 168, 1, 2 };
 // Set what PINs our Led's are connected to
 int redPin = 5;                
 int greenPin = 6;
-int bluePin = 7;
+int bluePin = 13;
 
 byte on[2] = "1";
 byte off[2] = "0";
 
 EthernetClient ethClient;
+
 PubSubClient client(server, 1883, callback, ethClient);
 
 // handles messages that are returned from the broker on our subscribed channel
@@ -69,7 +70,7 @@ void setup()
    
   Serial.print("My address:");
   Serial.println(Ethernet.localIP());
-  
+ 
    if (client.connect("arduinoClient")) {
       // Good, we connected turn on the red led
     digitalWrite(redPin, HIGH);
