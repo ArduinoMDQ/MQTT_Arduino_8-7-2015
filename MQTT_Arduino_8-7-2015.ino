@@ -4,14 +4,15 @@
 
 // Update these with values suitable for your network.
 byte mac[]    = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
-byte server[] = { 192, 168, 1, 1 };
-byte ip[]     = { 192, 168, 1, 2 };
+byte server[] = { 192, 168, 1, 107 };
+byte ip[]     = { 192, 168, 1,  177};
 
 
 // Set what PINs our Led's are connected to
 int redPin = 5;                
 int greenPin = 6;
-int bluePin = 13;
+int bluePin = 7;
+int ledArdu= 8;
 
 byte on[2] = "1";
 byte off[2] = "0";
@@ -31,7 +32,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
   
   
   // This will blink our green LED
-  blink(greenPin);
+//  blink(greenPin);
+    blink(ledArdu);
   
   // Check and see if our payload matches our simple trigger test
   if ((length == 1) & (memcmp(payload, on, 1) == 0) )
@@ -65,7 +67,7 @@ void setup()
   pinMode(redPin, OUTPUT);
   pinMode(greenPin, OUTPUT);
   pinMode(bluePin, OUTPUT);
-  
+  pinMode(ledArdu, OUTPUT);
   Ethernet.begin(mac, ip);
    
   Serial.print("My address:");
@@ -75,10 +77,10 @@ void setup()
       // Good, we connected turn on the red led
     digitalWrite(redPin, HIGH);
    // Publish a message to the status topic
-    client.publish("control","-MSG: Juan El Arduino esta online");
+    client.publish("led","1");
     
     // Listen for messages on the control topic
-    client.subscribe("control");
+    client.subscribe("led");
   }
 }
 
@@ -129,10 +131,10 @@ void Relay(int pin, int estado)
  
  switch(estado){
    case 0: digitalWrite(pin, LOW);
-   client.publish("led","-MSG:Juan me apagaste el LED !!! ");
+   client.publish("led","Led apagado ");
    break;
    case 1: digitalWrite(pin, HIGH);
-    client.publish("led","-MSG:Juan prendiste la lampara de  ALADINO !!! ");
+    client.publish("led","Led encendid");
  
  break;
  default:
